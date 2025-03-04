@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.RideSchedulesDTO;
 import com.example.demo.dto.SearchCriteriaDTO;
+import com.example.demo.entity.RideSchedules;
 import com.example.demo.service.RideSchedulesService;
 
 import jakarta.validation.Valid;
@@ -55,5 +58,10 @@ public class RideSchedulesController {
 
 		return rideSchedulesService.searchRide(searchCriteriaDTO);
 
+	}
+	
+	@GetMapping("/ridesbymotorist/{motoristid}")
+	public ArrayList<RideSchedules> findByMotoristUserId(@PathVariable int motoristid){
+		return rideSchedulesService.findByMotoristUserId(motoristid);
 	}
 }

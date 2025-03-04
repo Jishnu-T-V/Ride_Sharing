@@ -10,6 +10,7 @@ import com.example.demo.entity.RideSchedules;
 @Repository
 public interface RideSchedulesRepository extends JpaRepository<RideSchedules, Integer> {
 	ArrayList<RideSchedules> findByRideFromAndRideTo(String rideFrom, String rideTo);
+	ArrayList<RideSchedules> findByMotoristUserId(int motoristid);
 }
 
 

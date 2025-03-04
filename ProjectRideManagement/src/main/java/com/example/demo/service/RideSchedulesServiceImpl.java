@@ -113,6 +113,11 @@ public class RideSchedulesServiceImpl implements RideSchedulesService {
 		rideSchedule.setNoOfSeatsAvailable(rideSchedule.getNoOfSeatsAvailable() - seatsToBook);
 		rideSchedulesRepository.save(rideSchedule);
 	}
+
+	@Override
+	public ArrayList<RideSchedules> findByMotoristUserId(int motoristid) {
+		return rideSchedulesRepository.findByMotoristUserId(motoristid);
+	}
 	
 
 }
