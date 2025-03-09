@@ -15,4 +15,6 @@ public interface RideHistoryRepository extends JpaRepository<RideHistory, Intege
 	public String deleteByUserId(int userId);
 
 	List<RideHistory> findByUserIdAndRideDateBetween(int userId, LocalDate startDate, LocalDate endDate);
+	
+	List<RideHistory> findByUserId(int userId);
 }

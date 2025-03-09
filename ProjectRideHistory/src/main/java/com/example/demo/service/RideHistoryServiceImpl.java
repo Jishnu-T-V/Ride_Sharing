@@ -84,4 +84,9 @@ public class RideHistoryServiceImpl implements RideHistoryService {
 		return rideHistoryDTOs;
 	}
 
+	@Override
+	public List<RideHistory> findByUserId(int userId) {
+		return rideHistoryRepository.findByUserId(userId);
+	}
+
 }

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -49,11 +50,12 @@ public class BookingsServiceImpl implements BookingsService {
 				.orElseThrow(() -> new ResourceNotFoundException("Ride schedule not found"));
 
 		Bookings bookings = bMapper.toBookings(bookingsdto);
+		bookings.setMotoristUserId(rideSchedule.getMotoristUserId());
 
 		Bookings createBooking = bRepository.save(bookings);
 
 		// Add to history for rider
-		RideHistoryDTO riderHistory = new RideHistoryDTO(bookingsdto.getRiderUserId(), rideSchedule.getRideStartsOn(),
+		RideHistoryDTO riderHistory = new RideHistoryDTO(createBooking.getBookingid(), bookingsdto.getRiderUserId(), rideSchedule.getRideStartsOn(),
 				rideSchedule.getRideFrom(), rideSchedule.getRideTo(), bookingsdto.getTotalAmount());
 		client.addRideHistory(riderHistory);
 
@@ -132,6 +134,11 @@ public class BookingsServiceImpl implements BookingsService {
 		feedbackClient.submitFeedback(completeFeedbackDTO);
 
 		return completeFeedbackDTO;
+	}
+
+	@Override
+	public Optional<Bookings> getBookingById(int bookingId) {
+		return bRepository.findById(bookingId);
 	}
 
 }

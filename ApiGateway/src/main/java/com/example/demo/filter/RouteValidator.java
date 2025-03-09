@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class RouteValidator {
 
 
-	public static final String[] OPEN_API_ENDPOINTS = { "/auth/register", "/auth/new", "/auth/validate", "/eureka" };
+	public static final String[] OPEN_API_ENDPOINTS = { "/auth/register", "/auth/new", "/auth/validate","/api/distances/all","/api/rides/search", "/eureka" };
 
 	public Predicate<ServerHttpRequest> isSecured = request -> {
 		String path = request.getPath().toString();

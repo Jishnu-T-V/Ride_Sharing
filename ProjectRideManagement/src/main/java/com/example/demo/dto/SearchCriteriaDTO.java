@@ -10,4 +10,6 @@ public class SearchCriteriaDTO {
 	private String to;
 
 	private Integer availableSeats;
+	
+	private Integer rideFare;
 }

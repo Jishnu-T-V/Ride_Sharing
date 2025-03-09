@@ -43,4 +43,7 @@ public class RideHistory {
 	@NotNull(message = "Amount cannot be null")
 	@Positive(message = "Amount must be positive")
 	private int amount;
+	
+	@Column(name="booking_id")
+    private int bookingId;
 }

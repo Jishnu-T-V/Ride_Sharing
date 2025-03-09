@@ -49,6 +49,11 @@ public class Bookings {
 	@NotNull(message = "Payment mode cannot be null")
 	@NotBlank(message = "Payment mode cannot be blank")
 	private String paymentMode;
+	
+//	@Column(name = "Motorist_User_Id") 
+//    @NotNull(message = "Motorist user ID cannot be null")
+//    @Min(value = 1, message = "Motorist user ID must be greater than 0")
+    private int motoristUserId;
 
 	@ManyToOne
 	@JoinColumn(name = "Ride_Schedules_Id")

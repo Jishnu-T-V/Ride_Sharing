@@ -22,9 +22,9 @@ public class UserService {
 		if (obj1 == null) {
 			userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
 			repository.save(userInfo);
-			return "Registration Successfully ";
+			return "Registration Successful ";
 		} else {
-			return "This UserName is Already Registered.";
+			throw new RuntimeException("This User is Already Registered.");
 		}
 	}
 

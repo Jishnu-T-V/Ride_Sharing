@@ -1,4 +1,4 @@
-  package com.example.demo.filter;
+package com.example.demo.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -60,12 +60,11 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
 	private boolean isAuthorized(String role, String path, String method) {
 		if ("MOTORIST".equalsIgnoreCase(role)) {
-			return (path.startsWith("/api/rides") || path.startsWith("/api/distances")
-					|| path.startsWith("/api/bookings/getbyride")
+			return (path.startsWith("/api/rides") || path.startsWith("/api/bookings/getbyride")
 					|| path.startsWith("/feedback") && method.equalsIgnoreCase("GET"));
 		} else if ("RIDER".equalsIgnoreCase(role)) {
-			return (path.startsWith("/api/bookings") || path.startsWith("/history") || path.startsWith("/api/distances")
-					|| path.startsWith("/feedback") || path.startsWith("/api/rides") && method.equalsIgnoreCase("GET"));
+			return (path.startsWith("/api/bookings") || path.startsWith("/history") || path.startsWith("/feedback")
+					|| path.startsWith("/api/rides") && method.equalsIgnoreCase("GET"));
 		}
 		return false;
 	}

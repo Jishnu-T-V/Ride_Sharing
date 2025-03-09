@@ -10,14 +10,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RideHistoryDTO {
+	
+	private int bookingid;
 
 	private int userId;
 
 	private LocalDate rideDate;
 
-	private String from;
+	private String ridefrom;
 
-	private String to;
+	private String rideto;
 
 	private int amount;
+	
+	
 }

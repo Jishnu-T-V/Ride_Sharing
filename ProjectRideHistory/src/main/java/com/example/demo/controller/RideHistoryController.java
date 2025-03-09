@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.RideHistoryDTO;
+import com.example.demo.entity.RideHistory;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.RideHistoryService;
 
@@ -67,5 +68,10 @@ public class RideHistoryController {
 			@RequestParam LocalDate endDate) throws ResourceNotFoundException {
 
 		return rideHistoryService.getByDate(userId, startDate, endDate);
+	}
+	
+	@GetMapping("/getbyuser/{userId}")
+	public List<RideHistory> findByUserId(@PathVariable int userId){
+		return rideHistoryService.findByUserId(userId);
 	}
 }

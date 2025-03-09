@@ -41,8 +41,8 @@ class ProjectRideHistoryApplicationTests {
 
 	@BeforeEach
 	void setUp() {
-		rideHistory = new RideHistory(1, 1, LocalDate.now(), "A", "B", 100);
-		rideHistoryDTO = new RideHistoryDTO(1, LocalDate.now(), "A", "B", 100);
+		rideHistory = new RideHistory(1, 1, LocalDate.now(), "A", "B", 100, 1);
+		rideHistoryDTO = new RideHistoryDTO(1, 1, LocalDate.now(), "A", "B", 100);
 	}
 
 	@Test

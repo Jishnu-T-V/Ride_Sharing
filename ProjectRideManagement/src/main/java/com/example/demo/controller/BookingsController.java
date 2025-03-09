@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.BookingsDTO;
 import com.example.demo.dto.FeedbackDTO;
 import com.example.demo.dto.RideHistoryDTO;
+import com.example.demo.entity.Bookings;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.BookingsService;
 
@@ -82,6 +84,12 @@ public class BookingsController {
 	@PostMapping(value = "/submit/{bookingId}")
 	public FeedbackDTO submitFeedback(@PathVariable int bookingId, @RequestBody FeedbackDTO feedbackDTO) {
 		return bookingsService.submitFeedback(bookingId, feedbackDTO);
+	}
+
+	@GetMapping("/{bookingId}")
+	public Optional<Bookings> getBookingById(@PathVariable int bookingId) {
+		Optional<Bookings> bookingDTO = bookingsService.getBookingById(bookingId);
+		return (bookingDTO);
 	}
 
 }

@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.RideSchedulesDTO;
 import com.example.demo.dto.SearchCriteriaDTO;
 import com.example.demo.entity.RideSchedules;
+import com.example.demo.exception.SameFromAndToException;
 import com.example.demo.service.RideSchedulesService;
 
 import jakarta.validation.Valid;
@@ -35,8 +38,12 @@ public class RideSchedulesController {
 	 * @return the created ride schedule data transfer object
 	 */
 	@PostMapping(value = "/schedule")
-	public RideSchedulesDTO createNewRide(@Valid @RequestBody RideSchedulesDTO rideSchedulesDTO) {
-		return rideSchedulesService.insertRideSchedules(rideSchedulesDTO);
+	public ResponseEntity<?> createNewRide(@Valid @RequestBody RideSchedulesDTO rideSchedulesDTO) {
+		if(rideSchedulesDTO.getRideFrom().equals(rideSchedulesDTO.getRideTo())) {
+			throw new SameFromAndToException("From and To places cannot be same!!!");
+		}
+		RideSchedulesDTO createdRide = rideSchedulesService.insertRideSchedules(rideSchedulesDTO);
+		return ResponseEntity.ok(createdRide);
 	}
 
 	/**
@@ -55,13 +62,14 @@ public class RideSchedulesController {
 		searchCriteriaDTO.setTo(to);
 		searchCriteriaDTO.setFrom(from);
 		searchCriteriaDTO.setAvailableSeats(availableSeats);
+		
 
 		return rideSchedulesService.searchRide(searchCriteriaDTO);
 
 	}
-	
+
 	@GetMapping("/ridesbymotorist/{motoristid}")
-	public ArrayList<RideSchedules> findByMotoristUserId(@PathVariable int motoristid){
+	public ArrayList<RideSchedules> findByMotoristUserId(@PathVariable int motoristid) {
 		return rideSchedulesService.findByMotoristUserId(motoristid);
 	}
 }

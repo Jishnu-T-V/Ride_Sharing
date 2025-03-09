@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RideHistoryDTO {
+	
+	private int bookingid;
 
 	@NotNull(message = "User ID cannot be null")
 	@Min(value = 1, message = "User ID must be greater than 0")
@@ -23,10 +25,10 @@ public class RideHistoryDTO {
 	private LocalDate rideDate;
 
 	@NotBlank(message = "Ride from location cannot be blank")
-	private String from;
+	private String ridefrom;
 
 	@NotBlank(message = "Ride to location cannot be blank")
-	private String to;
+	private String rideto;
 
 	@NotNull(message = "Amount cannot be null")
 	@Positive(message = "Amount must be positive")
