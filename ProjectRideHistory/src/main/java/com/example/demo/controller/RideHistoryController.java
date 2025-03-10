@@ -2,7 +2,9 @@ package com.example.demo.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,11 +49,11 @@ public class RideHistoryController {
 	 * @return a confirmation message
 	 * @throws ResourceNotFoundException if the user ID is not found
 	 */
-	@DeleteMapping(value = "/clearHistory/{userId}")
-	public String deleteHistory(@PathVariable int userId) throws ResourceNotFoundException {
-		rideHistoryService.deleteHistory(userId);
-		return "History Cleared!!!";
-	}
+	 @DeleteMapping(value = "/clearHistory/{userId}")
+	    public ResponseEntity<Object> deleteHistory(@PathVariable int userId) throws ResourceNotFoundException {
+	        rideHistoryService.deleteHistory(userId);
+	        return ResponseEntity.ok(Map.of("message", "History Cleared!!!")); // Return JSON
+	    }
 
 	/**
 	 * Retrieves the ride history for a specific user within a date range.
