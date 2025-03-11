@@ -17,15 +17,21 @@ public class UserService {
 
 	public String addUser(UserInfo userInfo) {
 		String name = userInfo.getName();
-		UserInfo obj1 = repository.findByName(name).orElse(null);
-		System.out.println(obj1);
-		if (obj1 == null) {
-			userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
-			repository.save(userInfo);
-			return "Registration Successful ";
-		} else {
-			throw new RuntimeException("This User is Already Registered.");
-		}
+		String email = userInfo.getEmail();
+		
+		UserInfo existingUserByName = repository.findByName(name).orElse(null);
+        UserInfo existingUserByEmail = repository.findByEmail(email).orElse(null);
+        
+        if (existingUserByName != null) {
+            throw new RuntimeException("Username is Already Registered.");
+        }
+        if (existingUserByEmail != null) {
+            throw new RuntimeException("Email is Already Registered.");
+        }
+
+        userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
+        repository.save(userInfo);
+        return "Registration Successful ";
 	}
 
 	public String getRoles(String username) {

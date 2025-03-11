@@ -27,9 +27,11 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(SameFromAndToException.class)
-	public ResponseEntity<String> handleUserNotFoundException(SameFromAndToException ex) {
-		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
-	}
+    public ResponseEntity<Map<String, String>> handleSameFromAndToException(SameFromAndToException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> handleException(Exception ex) {
