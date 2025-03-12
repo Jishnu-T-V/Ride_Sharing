@@ -1,11 +1,14 @@
 package com.service;
 
 import java.security.Key;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +20,8 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
 	public static final String SECRET = "d3780ec3d1cfaba271e0538d4fae686d8367e10155ee424691fbf191eabec53d";
 
@@ -49,7 +54,7 @@ public class JwtService {
 	public String generateToken(String userName, String roles) {
 		Map<String, Object> claims = new HashMap<>();
 		claims.put("roles", roles);
-		System.out.println(claims);
+		logger.debug("Claims being used to generate token: {}", claims);
 		return createToken(claims, userName);
 	}
 

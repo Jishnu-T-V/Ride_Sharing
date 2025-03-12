@@ -1,9 +1,9 @@
 package com.controller;
 
 import java.util.HashMap;
+
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,56 +27,63 @@ import com.service.UserService;
 @RequestMapping("/auth")
 //@CrossOrigin("*")
 public class AuthController {
+	
+	private static final String MESSAGE_KEY = "message";
 
-    @Autowired
-    private UserService service;
-    @Autowired
-    private JwtService jwtService;
-    
-    @Autowired
-    private UserInfoRepository repo;
+    private final UserService service;
+    private final JwtService jwtService;
+    private final UserInfoRepository repo;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @GetMapping("/welcome")		//http://localhost:9090/auth/welcome
-    public String welcome() {
-        return "Welcome this endpoint is not secure";
+    public AuthController(UserService service, JwtService jwtService, UserInfoRepository repo, AuthenticationManager authenticationManager) {
+        this.service = service;
+        this.jwtService = jwtService;
+        this.repo = repo;
+        this.authenticationManager = authenticationManager;
     }
 
-    @PostMapping("/new")    //http://localhost:9090/auth/new
-    public ResponseEntity<Map<String, String>> addNewUser(@RequestBody UserInfo userInfo) {
-    	try {
-            String result = service.addUser(userInfo);
-            Map<String, String> response = new HashMap<>();
-            response.put("message", result);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (RuntimeException e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("message", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-        }
-    }
+	@GetMapping("/welcome") 
+	public String welcome() {
+		return "Welcome this endpoint is not secure";
+	}
 
-    @PostMapping("/authenticate")        //http://localhost:9090/auth/authenticate
-    public ResponseEntity<Map<String, String>> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        if (authentication.isAuthenticated()) {
-            UserInfo obj = repo.findByName(authRequest.getUsername()).orElse(null);
-            String token = jwtService.generateToken(authRequest.getUsername(), obj.getRoles());
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
-            response.put("role", obj.getRoles());
-            response.put("id", String.valueOf(obj.getId()));
-            return ResponseEntity.ok(response);
-        } else {
-            throw new UsernameNotFoundException("invalid user request !");
-        }
-    }
-    
-    @GetMapping("/getroles/{username}")		//http://localhost:9090/auth/getroles/{username}
-    public String getRoles(@PathVariable String username)
-    {
-    	return service.getRoles(username);
-    }
+	@PostMapping("/new") 
+	public ResponseEntity<Map<String, String>> addNewUser(@RequestBody UserInfo userInfo) {
+		try {
+			String result = service.addUser(userInfo);
+			Map<String, String> response = new HashMap<>();
+			response.put(MESSAGE_KEY, result);
+			return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		} catch (RuntimeException e) {
+			Map<String, String> errorResponse = new HashMap<>();
+			errorResponse.put(MESSAGE_KEY, e.getMessage());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+		}
+	}
+
+	@PostMapping("/authenticate") 
+	public ResponseEntity<Map<String, String>> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+		if (authentication.isAuthenticated()) {
+			UserInfo obj = repo.findByName(authRequest.getUsername()).orElse(null);
+			if (obj != null) { 
+				String token = jwtService.generateToken(authRequest.getUsername(), obj.getRoles());
+				Map<String, String> response = new HashMap<>();
+				response.put("token", token);
+				response.put("role", obj.getRoles());
+				response.put("id", String.valueOf(obj.getId()));
+				return ResponseEntity.ok(response);
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(MESSAGE_KEY, "User not found")); 
+			}
+		} else {
+			throw new UsernameNotFoundException("invalid user request !");
+		}
+	}
+
+	@GetMapping("/getroles/{username}") 
+	public String getRoles(@PathVariable String username) {
+		return service.getRoles(username);
+	}
 }

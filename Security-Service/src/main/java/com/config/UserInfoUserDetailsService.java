@@ -1,21 +1,23 @@
 package com.config;
 
-import com.entity.UserInfo;
-import com.repository.UserInfoRepository;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import com.entity.UserInfo;
+import com.repository.UserInfoRepository;
 
 @Component
 public class UserInfoUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserInfoRepository repository;
+	private final UserInfoRepository repository;
+
+    public UserInfoUserDetailsService(UserInfoRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

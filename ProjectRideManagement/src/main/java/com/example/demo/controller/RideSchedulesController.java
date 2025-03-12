@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
-
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -38,13 +36,13 @@ public class RideSchedulesController {
 	 * @return the created ride schedule data transfer object
 	 */
 	@PostMapping(value = "/schedule")
-	public ResponseEntity<?> createNewRide(@Valid @RequestBody RideSchedulesDTO rideSchedulesDTO) {
-		if(rideSchedulesDTO.getRideFrom().equals(rideSchedulesDTO.getRideTo())) {
-			throw new SameFromAndToException("From and To places cannot be same!!!");
-		}
-		RideSchedulesDTO createdRide = rideSchedulesService.insertRideSchedules(rideSchedulesDTO);
-		return ResponseEntity.ok(createdRide);
-	}
+	public ResponseEntity<RideSchedulesDTO> createNewRide(@Valid @RequestBody RideSchedulesDTO rideSchedulesDTO) {
+        if (rideSchedulesDTO.getRideFrom().equals(rideSchedulesDTO.getRideTo())) {
+            throw new SameFromAndToException("From and To places cannot be same!!!");
+        }
+        RideSchedulesDTO createdRide = rideSchedulesService.insertRideSchedules(rideSchedulesDTO);
+        return ResponseEntity.ok(createdRide);
+    }
 
 	/**
 	 * Searches for ride schedules based on search criteria.
@@ -69,7 +67,7 @@ public class RideSchedulesController {
 	}
 
 	@GetMapping("/ridesbymotorist/{motoristid}")
-	public ArrayList<RideSchedules> findByMotoristUserId(@PathVariable int motoristid) {
+	public List<RideSchedules> findByMotoristUserId(@PathVariable int motoristid) {
 		return rideSchedulesService.findByMotoristUserId(motoristid);
 	}
 }

@@ -19,7 +19,6 @@ import com.example.demo.mapper.BookingsMapper;
 import com.example.demo.repository.BookingsRepository;
 import com.example.demo.repository.RideSchedulesRepository;
 
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

@@ -1,6 +1,5 @@
 package com.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,18 +17,27 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.filter.JwtAuthFilter;
+import com.repository.UserInfoRepository;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-	@Autowired
-	private JwtAuthFilter authFilter;
+	
+	private final JwtAuthFilter authFilter;
+    private final UserInfoRepository userInfoRepository;
+
+    public SecurityConfig(JwtAuthFilter authFilter, UserInfoRepository userInfoRepository) {
+        this.authFilter = authFilter;
+        this.userInfoRepository = userInfoRepository;
+    }
+	
+	
 
 	// authentication
 	@Bean
 	UserDetailsService userDetailsService() {
-		return new UserInfoUserDetailsService();
+		return new UserInfoUserDetailsService(userInfoRepository);
 	}
 
 	@Bean

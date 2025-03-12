@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
@@ -14,8 +13,6 @@ import lombok.Data;
 public class BookingsDTO {
 	private int id;
 
-//	@NotNull(message = "Booking date cannot be null")
-//	@PastOrPresent(message = "Booking date cannot be in the future")
 	private LocalDate bookedOn;
 
 	@NotNull(message = "Rider user ID cannot be null")

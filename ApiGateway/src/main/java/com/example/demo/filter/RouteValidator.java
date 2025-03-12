@@ -16,10 +16,10 @@ public class RouteValidator {
 		String path = request.getPath().toString();
 		for (String endpoint : OPEN_API_ENDPOINTS) {
 			if (path.contains(endpoint)) {
-				return false; // Endpoint does not require authorization
+				return false; 
 			}
 		}
-		return true; // Endpoint requires authorization
+		return true; 
 	};
 
 	
